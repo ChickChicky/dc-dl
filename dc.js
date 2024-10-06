@@ -56,14 +56,25 @@ let applyOpStr = (ops,nums) => {
     return s;
 }
 
+function two_random(n) {
+    if (n == 1)
+        return [-1,-1];
+    let a = Math.floor(Math.random()*n);
+    if (n == 2)
+        return [a,1-a];
+    let b;
+    do { b = Math.floor(Math.random()*n); } while (a == b);
+    return [a,b];
+}
+
 ;(async()=>{
 
     while (true) {
 
-        let st = await input('NOUMBERZ: ',U,U,s=>s.split(/(\s+)/g).map(v=>v.match(/^\d+$/g)?`\x1b[33m${v}\x1b[39m`:`\x1b[31m${v}\x1b[39m`).join(''));
+        let st = await input('🔢: ',U,U,s=>s.split(/(\s+)/g).map(v=>v.match(/^\d+$/g)?`\x1b[33m${v}\x1b[39m`:`\x1b[31m${v}\x1b[39m`).join(''));
         if (st == input.Cancel) return;
 
-        let st2 = await input('TARGUET: ',U,U,s=>Number.isNaN(+s)?`\x1b[31m${s}\x1b[39m`:`\x1b[33m${s}\x1b[39m`);
+        let st2 = await input('🎯: ',U,U,s=>Number.isNaN(+s)?`\x1b[31m${s}\x1b[39m`:`\x1b[33m${s}\x1b[39m`);
         if (st2 == input.Cancel) return;
 
         let tgt = +st2;
@@ -83,7 +94,9 @@ let applyOpStr = (ops,nums) => {
                 for (let i = 0; i < 2000; i++) {
                     let ops = [ ];
                     for (let ii = 0; ii < Math.min(Math.log(l+1),7); ii++) {
-                        ops.push({ a:Math.floor(Math.random()*(num.length-ops.length)),b:Math.floor(Math.random()*(num.length-ops.length-1)), o:'+-*/'[Math.floor(Math.random()*4)] });
+                        let [a,b] = two_random(num.length-ops.length);
+                        let o = '+-' + (a!=1&&b!=1?'*/':'');
+                        ops.push({ a, b, o:o[Math.floor(Math.random()*o.length)] });
                     }
                     let rez = applyOp(ops,num);
                     res.push([ops,rez]);

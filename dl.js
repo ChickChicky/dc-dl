@@ -28,7 +28,7 @@ const U = undefined;
 ;(async()=>{
     while (true) {
 
-        const w = await input('LETTERZ: ',U,U,s=>`\x1b[32m${s}\x1b[39m`);
+        const w = await input('🔤: ',U,U,s=>`\x1b[32m${s}\x1b[39m`);
 
         if (w == input.Cancel) return;
 
